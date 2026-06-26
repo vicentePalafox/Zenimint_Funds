@@ -361,3 +361,14 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# ==================================
+# 3. BASE DE DATOS SQLITE
+# ==================================
+# (Ignoramos la BD para no subir datos reales o de prueba)
+*.db
+*.sqlite
+*.db-shm
+*.db-wal
+finanzas.db
+Zenimint.db
