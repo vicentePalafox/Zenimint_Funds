@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Zenimint_Funds.Views.TarjetaPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Zenimint_Funds.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Zenimint_Funds.Models"
+    Loaded="Page_Loaded"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock Text="Mis Tarjetas de Crédito" FontSize="28" FontWeight="Bold" VerticalAlignment="Center"/>
+        </Grid>
+
+        <GridView Grid.Row="1" x:Name="listaTarjetas" SelectionMode="None">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="models:TarjetaCredito">
+                    <Border Width="280" Height="150" CornerRadius="12" Margin="10" Padding="20">
+                        <Border.Background>
+                            <SolidColorBrush Color="{x:Bind ColorFondo}" />
+                        </Border.Background>
+
+                        <Grid>
+                            <TextBlock Text="{x:Bind Nombre}" FontSize="22" FontWeight="Bold" Foreground="White" VerticalAlignment="Top"/>
+                            <StackPanel VerticalAlignment="Bottom">
+                                <TextBlock Text="LÍMITE DE CRÉDITO" FontSize="10" Foreground="#DDFFFFFF"/>
+                                <TextBlock Text="{x:Bind LimiteCredito}" FontSize="20" Foreground="White" FontWeight="SemiBold"/>
+                                <StackPanel Orientation="Horizontal" Spacing="20" Margin="0,5,0,0">
+                                    <TextBlock Foreground="White" FontSize="12">
+                                        <Run Text="Corte: " />
+                                        <Run Text="{x:Bind DiaCorte}" />
+                                    </TextBlock>
+
+                                    <TextBlock Foreground="White" FontSize="12">
+                                        <Run Text="Pago: " />
+                                        <Run Text="{x:Bind DiaPago}" />
+                                    </TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+    </Grid>
+</Page>

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Zenimint_Funds (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Zenimint_Funds (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

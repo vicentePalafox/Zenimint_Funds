@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Zenimint_Funds.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Zenimint_Funds.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Zenimint_Funds.Models"
+    Loaded="Page_Loaded"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Configuración de Catálogos" FontSize="28" FontWeight="Bold" Margin="0,0,0,20"/>
+        <InfoBar x:Name="Notificacion" IsOpen="False" Grid.Row="0" Margin="0,40,0,0"/>
+
+        <TabView Grid.Row="1" IsAddTabButtonVisible="False" TabWidthMode="SizeToContent">
+
+            <TabViewItem Header="Categorías de Ingreso" IsClosable="False">
+                <TabViewItem.IconSource>
+                    <SymbolIconSource Symbol="Add" />
+                </TabViewItem.IconSource>
+
+                <Grid Margin="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="15" Width="350">
+                        <TextBlock Text="Gestionar Categorías" FontSize="20" FontWeight="SemiBold"/>
+                        <TextBlock Text="Nuevo Ingreso"/>
+                        <TextBox x:Name="txtNuevoIngreso" Header="Nombre de la categoría" PlaceholderText="Ej. Sueldo, Inversion..."/>
+                        <ComboBox x:Name="cmbIcono" Header="Icono representativo" SelectedIndex="0" HorizontalAlignment="Stretch">
+                            <ComboBoxItem Content="💵 Billetes" Tag="💵" />
+                            <ComboBoxItem Content="🏦 Banco" Tag="🏦" />
+                            <ComboBoxItem Content="📱 Transferencia" Tag="📱" />
+                            <ComboBoxItem Content="📈 Inversión" Tag="📈" />
+                            <ComboBoxItem Content="🎁 Regalo" Tag="🎁" />
+                        </ComboBox>
+
+                        <ComboBox x:Name="cmbColor" Header="Color de la etiqueta" SelectedIndex="0" HorizontalAlignment="Stretch">
+                            <ComboBoxItem Content="Verde Éxito" Tag="#FF4CAF50" />
+                            <ComboBoxItem Content="Azul Finanzas" Tag="#FF2196F3" />
+                            <ComboBoxItem Content="Dorado" Tag="#FFFFC107" />
+                            <ComboBoxItem Content="Morado" Tag="#FF9C27B0" />
+                        </ComboBox>
+
+                        <Button Content="Guardar Categoría" Style="{StaticResource AccentButtonStyle}" Click="btnGuardarIngreso_Click"/>
+                    </StackPanel>
+
+                    <ListView x:Name="listaIngresos" Grid.Column="1" Margin="30,0,0,0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:CategoriaIngreso">
+                                <StackPanel Orientation="Horizontal" Spacing="15" Margin="0,8">
+                                    <TextBlock Text="{x:Bind Icono}" FontSize="24" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{x:Bind Nombre}" FontSize="18" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </TabViewItem>
+
+            <TabViewItem Header="Categorías de Gastos" IsClosable="False">
+                <TabViewItem.IconSource>
+                    <SymbolIconSource Symbol="Remove" />
+                </TabViewItem.IconSource>
+
+                <Grid Margin="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="15" Width="350">
+                        <TextBlock Text="Gestionar Categorías" FontSize="20" FontWeight="SemiBold"/>
+                        <TextBlock Text="Nuevo Tipo de Gasto"/>
+                        <TextBox x:Name="txtNuevoGasto" Header="Nombre de la categoría" PlaceholderText="Ej. Alimentación, Transporte..."/>
+
+                        <ComboBox x:Name="cmbIconoGasto" Header="Icono representativo" SelectedIndex="0" HorizontalAlignment="Stretch">
+                            <ComboBoxItem Content="💵 Billetes" Tag="💵" />
+                            <ComboBoxItem Content="🏦 Banco" Tag="🏦" />
+                            <ComboBoxItem Content="📱 Transferencia" Tag="📱" />
+                            <ComboBoxItem Content="📈 Inversión" Tag="📈" />
+                            <ComboBoxItem Content="🎁 Regalo" Tag="🎁" />
+                        </ComboBox>
+
+                        <ComboBox x:Name="cmbColorGasto" Header="Color de la etiqueta" SelectedIndex="0" HorizontalAlignment="Stretch">
+                            <ComboBoxItem Content="Verde Éxito" Tag="#FF4CAF50" />
+                            <ComboBoxItem Content="Azul Finanzas" Tag="#FF2196F3" />
+                            <ComboBoxItem Content="Dorado" Tag="#FFFFC107" />
+                            <ComboBoxItem Content="Morado" Tag="#FF9C27B0" />
+                        </ComboBox>
+
+                        <Button Content="Guardar Categoría" Style="{StaticResource AccentButtonStyle}" Click="btnGuardarGasto_Click"/>
+                    </StackPanel>
+
+                    <ListView x:Name="listaGastos" Grid.Column="1" Margin="30,0,0,0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:CategoriaGasto">
+                                <TextBlock Text="{x:Bind Nombre}" FontSize="15" Margin="0,8"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </TabViewItem>
+
+            <TabViewItem Header="Tarjetas de Crédito" IsClosable="False">
+                <TabViewItem.IconSource>
+                    <SymbolIconSource Symbol="Library" />
+                </TabViewItem.IconSource>
+
+                <Grid Margin="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="15" Width="350">
+                        <TextBlock Text="Registrar Nueva Tarjeta" FontSize="20" FontWeight="SemiBold"/>
+
+
+                        <TextBox x:Name="txtNombre" Header="Nombre de la Tarjeta" PlaceholderText="Ej. Nu, Hey Banco..."/>
+                        <NumberBox x:Name="numLimite" Header="Límite de Crédito ($)" PlaceholderText="0.00" Minimum="0"/>
+
+                        <Grid ColumnSpacing="15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <NumberBox x:Name="numDiaCorte" Grid.Column="0" Header="Día de Corte" Minimum="1" Maximum="31"/>
+                            <NumberBox x:Name="numDiaPago" Grid.Column="1" Header="Día de Pago" Minimum="1" Maximum="31"/>
+                        </Grid>
+
+                        <ComboBox x:Name="cmbColorTarjeta" Header="Color del plástico" SelectedIndex="0" HorizontalAlignment="Stretch">
+                            <ComboBoxItem Content="Morado (Nu)" Tag="#FF673AB7" />
+                            <ComboBoxItem Content="Azul (BBVA)" Tag="#FF0D47A1" />
+                            <ComboBoxItem Content="Negro (Hey/Rappi)" Tag="#FF212121" />
+                            <ComboBoxItem Content="Oro" Tag="#FFFFB300" />
+                        </ComboBox>
+
+                        <Button Content="Guardar Tarjeta" Style="{StaticResource AccentButtonStyle}" Click="btnGuardarTarjeta_Click"/>
+
+                        <TextBlock x:Name="lblErrorModal" Foreground="Red" Visibility="Collapsed" TextWrapping="Wrap"/>
+
+                    </StackPanel>
+
+                    <ListView x:Name="listaTarjetas" Grid.Column="1" Margin="30,0,0,0" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:TarjetaCredito">
+                                <TextBlock Text="{x:Bind Nombre}" FontSize="18" Margin="0,8"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </TabViewItem>
+
+            <TabViewItem Header="Deudores" IsClosable="False">
+                <TabViewItem.IconSource>
+                    <SymbolIconSource Symbol="Contact" />
+                </TabViewItem.IconSource>
+
+                <Grid Margin="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Spacing="15" Width="350">
+                        <TextBlock Text="Nuevo Deudor" FontSize="20" FontWeight="SemiBold"/>
+                        <TextBox x:Name="txtNombreDeudor" Header="Nombre de la persona" PlaceholderText="Ej. Hermano, Papá..."/>
+                        <Button Content="Guardar Deudor" Style="{StaticResource AccentButtonStyle}" Click="btnGuardarDeudor_Click"/>
+                    </StackPanel>
+
+                    <ListView x:Name="listaDeudores" Grid.Column="1" Margin="30,0,0,0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Deudor">
+                                <TextBlock Text="{x:Bind Nombre}" FontSize="18" Margin="0,8"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </TabViewItem>
+
+        </TabView>
+    </Grid>
+</Page>
