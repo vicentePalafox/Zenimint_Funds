@@ -20,5 +20,7 @@ namespace Zenimint_Funds.Models
         public Deudor PersonaDeudora { get; set; }
 
         public CategoriaGasto Categoria { get; set; }
+
+        public string MontoFormateado => $"{MontoTotal:C2}";
     }
 }

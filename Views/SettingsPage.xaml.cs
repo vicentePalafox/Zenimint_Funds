@@ -15,6 +15,9 @@ namespace Zenimint_Funds.Views
     /// </summary>
     public sealed partial class SettingsPage : Page
     {
+        // Variable para almacenar el color que guardaremos en SQLite
+        private string _colorTarjetaHex = "#FF212121"; // Negro por defecto
+
         public SettingsPage()
         {
             InitializeComponent();
@@ -122,19 +125,55 @@ namespace Zenimint_Funds.Views
             }
         }
 
+        public void txtNombre_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // Reflejamos el texto en la tarjeta visual al instante
+            lblNombrePreview.Text = string.IsNullOrWhiteSpace(txtNombre.Text) ? "NUEVA TARJETA" : txtNombre.Text.ToUpper();
+
+            string texto = txtNombre.Text.ToLower();
+
+            // Detección inteligente de bancos
+            if (texto.Contains("nu") || texto.Contains("stori"))
+            {
+                ActualizarColorTarjeta("#FF673AB7", 103, 58, 183); // Morado
+            }
+            else if (texto.Contains("bbva") || texto.Contains("bancomer") || texto.Contains("azul"))
+            {
+                ActualizarColorTarjeta("#FF0D47A1", 13, 71, 161); // Azul
+            }
+            else if (texto.Contains("santander") || texto.Contains("rojo"))
+            {
+                ActualizarColorTarjeta("#FFD32F2F", 211, 47, 47); // Rojo
+            }
+            else if (texto.Contains("oro") || texto.Contains("gold"))
+            {
+                ActualizarColorTarjeta("#FFFFB300", 255, 179, 0); // Oro
+            }
+            else
+            {
+                ActualizarColorTarjeta("#FF212121", 33, 33, 33); // Negro (Hey Banco, Rappi, por defecto)
+            }
+        }
+
+        // Método auxiliar que convierte los códigos RGB en un pincel visual para WinUI 3
+        private void ActualizarColorTarjeta(string hex, byte r, byte g, byte b)
+        {
+            _colorTarjetaHex = hex;
+            VistaPreviaTarjeta.Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(Windows.UI.Color.FromArgb(255, r, g, b));
+        }
+
         public async void btnGuardarTarjeta_Click(object sender, RoutedEventArgs e)
         {
             string nombre = txtNombre.Text;
             double limite = double.IsNaN(numLimite.Value) ? 0 : numLimite.Value;
             double corte = double.IsNaN(numDiaCorte.Value) ? 0 : numDiaCorte.Value;
             double pago = double.IsNaN(numDiaPago.Value) ? 0 : numDiaPago.Value;
-            string? color = (cmbColor.SelectedItem as ComboBoxItem)?.Tag.ToString();
+            string color = _colorTarjetaHex;
 
             if (string.IsNullOrWhiteSpace(nombre) || limite <= 0 || corte <= 0 || pago <= 0)
             {
                 lblErrorModal.Text = "Llena todos los campos con valores válidos.";
                 lblErrorModal.Visibility = Visibility.Visible;
-
                 return;
             }
 
@@ -185,7 +224,6 @@ namespace Zenimint_Funds.Views
                 txtNombreDeudor.Text = "";
             }
         }
-
 
         private void MostrarMensaje(string titulo, string msj, InfoBarSeverity severity)
         {

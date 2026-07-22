@@ -35,9 +35,16 @@ namespace Zenimint_Funds.Views
             }
             catch (Exception ex)
             {
-
-                throw;
+                MostrarMensaje("ERROR", " No se pudieron cargar los catálogos." + ex.Message, InfoBarSeverity.Error);
             }
+        }
+
+        private void MostrarMensaje(string titulo, string mensaje, InfoBarSeverity severidad)
+        {
+            Notificacion.Title = titulo;
+            Notificacion.Message = mensaje;
+            Notificacion.Severity = severidad;
+            Notificacion.IsOpen = true;
         }
     }
 }

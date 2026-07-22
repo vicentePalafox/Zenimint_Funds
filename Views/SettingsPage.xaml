@@ -124,9 +124,7 @@
 
                     <StackPanel Grid.Column="0" Spacing="15" Width="350">
                         <TextBlock Text="Registrar Nueva Tarjeta" FontSize="20" FontWeight="SemiBold"/>
-
-
-                        <TextBox x:Name="txtNombre" Header="Nombre de la Tarjeta" PlaceholderText="Ej. Nu, Hey Banco..."/>
+                        <TextBox x:Name="txtNombre" Header="Nombre de la Tarjeta" PlaceholderText="Ej. Nu, Hey Banco..." TextChanged="txtNombre_TextChanged"/>
                         <NumberBox x:Name="numLimite" Header="Límite de Crédito ($)" PlaceholderText="0.00" Minimum="0"/>
 
                         <Grid ColumnSpacing="15">
@@ -138,17 +136,20 @@
                             <NumberBox x:Name="numDiaPago" Grid.Column="1" Header="Día de Pago" Minimum="1" Maximum="31"/>
                         </Grid>
 
-                        <ComboBox x:Name="cmbColorTarjeta" Header="Color del plástico" SelectedIndex="0" HorizontalAlignment="Stretch">
-                            <ComboBoxItem Content="Morado (Nu)" Tag="#FF673AB7" />
-                            <ComboBoxItem Content="Azul (BBVA)" Tag="#FF0D47A1" />
-                            <ComboBoxItem Content="Negro (Hey/Rappi)" Tag="#FF212121" />
-                            <ComboBoxItem Content="Oro" Tag="#FFFFB300" />
-                        </ComboBox>
+                        <TextBlock Text="Vista previa del plástico" FontSize="14" FontWeight="SemiBold" Margin="0,10,0,0"/>
+                        <Border x:Name="VistaPreviaTarjeta" Width="260" Height="140" CornerRadius="12" Padding="20" HorizontalAlignment="Left" Background="#FF212121">
+                            <Grid>
+                                <TextBlock x:Name="lblNombrePreview" Text="NUEVA TARJETA" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Top"/>
+
+                                <StackPanel VerticalAlignment="Bottom">
+                                    <TextBlock Text="LÍMITE DE CRÉDITO" FontSize="10" Foreground="#DDFFFFFF"/>
+                                    <TextBlock Text="••••  ••••  ••••  ••••" FontSize="20" Foreground="White" FontWeight="SemiBold" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
 
                         <Button Content="Guardar Tarjeta" Style="{StaticResource AccentButtonStyle}" Click="btnGuardarTarjeta_Click"/>
-
                         <TextBlock x:Name="lblErrorModal" Foreground="Red" Visibility="Collapsed" TextWrapping="Wrap"/>
-
                     </StackPanel>
 
                     <ListView x:Name="listaTarjetas" Grid.Column="1" Margin="30,0,0,0" >

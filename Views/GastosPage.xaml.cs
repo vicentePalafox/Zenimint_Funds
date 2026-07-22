@@ -25,16 +25,13 @@ namespace Zenimint_Funds.Views
         {
             try
             {
-                using (var context = new FinanzasContext())
-                {
-                    cmbTarjeta.ItemsSource = context.TarjetaCredito.ToList();
-                    cmbDeudor.ItemsSource = context.Deudores.ToList();
-                }
+                using var context = new FinanzasContext();
+                cmbTarjeta.ItemsSource = context.TarjetaCredito.ToList();
+                cmbDeudor.ItemsSource = context.Deudores.ToList();
             }
             catch (Exception ex)
             {
-
-                throw;
+                MostrarMensaje("ERROR", " No se pudieron cargar los catálogos." + ex.Message, InfoBarSeverity.Error);
             }
         }
 
@@ -53,8 +50,7 @@ namespace Zenimint_Funds.Views
             }
             catch (Exception ex)
             {
-
-                throw;
+                MostrarMensaje("ERROR", " No se pudieron cargar los catálogos." + ex.Message, InfoBarSeverity.Error);
             }
         }
 
