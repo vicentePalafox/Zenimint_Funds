@@ -12,6 +12,33 @@
 
     <ScrollViewer Padding="30">
         <StackPanel Spacing="30">
+            <!-- FILTRO DE TIEMPO -->
+            <StackPanel Orientation="Horizontal" Spacing="15" Margin="0,0,0,30">
+                <SymbolIcon Symbol="Calendar" Foreground="Gray"/>
+                <TextBlock Text="Mostrando información de:" VerticalAlignment="Center" FontSize="16" Foreground="Gray"/>
+                <ComboBox x:Name="cmbFiltroMes" Width="220" SelectionChanged="cmbFiltroMes_SelectionChanged">
+                    <ComboBoxItem Content="Mes Actual" IsSelected="True" Tag="0"/>
+                    <ComboBoxItem Content="Mes Anterior" Tag="1"/>
+                    <ComboBoxItem Content="Todo el Historial" Tag="2"/>
+                </ComboBox>
+            </StackPanel>
+
+            <!-- SECCIÓN DE ALERTAS INTELIGENTES -->
+            <ItemsControl x:Name="listaAlertas" Margin="0,0,0,30">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Usamos InfoBar para que se vea como una notificación nativa de Windows -->
+                        <InfoBar IsOpen="True" 
+                     Severity="{Binding Severidad}" 
+                     Title="{Binding Titulo}" 
+                     Message="{Binding Mensaje}" 
+                     Margin="0,0,0,10" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- ... (Tus StackPanels con los totales de Saldo Efectivo y Deuda) ... -->
+
             <StackPanel Orientation="Horizontal" Spacing="50">
                 <StackPanel>
                     <TextBlock Text="SALDO EFECTIVO DISPONIBLE" FontSize="12" Foreground="Gray" FontWeight="Bold"/>
@@ -30,13 +57,46 @@
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Spacing="10">
-                    <TextBlock Text="Distribución de Deuda por Tarjeta" FontSize="18" FontWeight="SemiBold"/>
-                    <Border Background="{ThemeResource LayerFillColorDefaultBrush}" CornerRadius="8" Padding="20" Height="300">
-                        <lvc:CartesianChart x:Name="chartTarjetas" />
-                    </Border>
+                <!-- COLUMNA IZQUIERDA (Gráfica + Termómetros) -->
+                <StackPanel Grid.Column="0" Spacing="30">
+
+                    <!-- 1. Gráfica de LiveCharts -->
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Distribución de Deuda por Tarjeta" FontSize="18" FontWeight="SemiBold"/>
+                        <Border Background="{ThemeResource LayerFillColorDefaultBrush}" CornerRadius="8" Padding="20" Height="300">
+                            <lvc:CartesianChart x:Name="chartTarjetas" />
+                        </Border>
+                    </StackPanel>
+
+                    <!-- 2. Termómetros de Deudas -->
+                    <StackPanel Spacing="15">
+                        <TextBlock Text="Nivel de Endeudamiento por Tarjeta" FontSize="18" FontWeight="SemiBold"/>
+
+                        <ItemsControl x:Name="listaTermometros">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Spacing="5" Margin="0,0,0,20">
+                                        <Grid>
+                                            <!-- Nombre de la tarjeta a la izquierda -->
+                                            <TextBlock Text="{Binding Nombre}" HorizontalAlignment="Left" FontWeight="SemiBold" FontSize="16"/>
+                                            <!-- Texto con la deuda vs el límite a la derecha -->
+                                            <TextBlock Text="{Binding TextoDetalle}" HorizontalAlignment="Right" Foreground="Gray"/>
+                                        </Grid>
+
+                                        <!-- La barra de progreso nativa -->
+                                        <ProgressBar Value="{Binding Porcentaje}" 
+                                         Foreground="{Binding ColorBarra}" 
+                                         Height="8" 
+                                         CornerRadius="4"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+
                 </StackPanel>
 
+                <!-- COLUMNA DERECHA (Cuentas por Cobrar / Deudores) -->
                 <StackPanel Grid.Column="1" Spacing="10">
                     <TextBlock Text="Cuentas por Cobrar" FontSize="18" FontWeight="SemiBold"/>
                     <ListView x:Name="listaDeudores" SelectionMode="None">
@@ -45,7 +105,7 @@
                                 <Grid Margin="0,5">
                                     <TextBlock Text="{Binding Nombre}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                     <TextBlock Text="{Binding TotalDeuda, ConverterParameter='${0:N2}'}" 
-                                               HorizontalAlignment="Right" FontWeight="Bold" Foreground="OrangeRed"/>
+                                   HorizontalAlignment="Right" FontWeight="Bold" Foreground="OrangeRed"/>
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>

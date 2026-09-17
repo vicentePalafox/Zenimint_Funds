@@ -30,6 +30,13 @@
                     <RadioButton x:Name="optTarjeta" Content="Tarjeta de Crédito" Checked="MetodoPago_Changed"/>
                 </StackPanel>
 
+                <ComboBox x:Name="cmbCategoriaGasto" 
+          Header="Categoría del Gasto" 
+          PlaceholderText="Selecciona una categoría..." 
+          HorizontalAlignment="Stretch" 
+          DisplayMemberPath="Nombre" 
+          Margin="0,0,0,15" />
+
                 <ComboBox x:Name="cmbTarjeta" Header="Selecciona tu Tarjeta" Visibility="Collapsed" 
                           HorizontalAlignment="Stretch" DisplayMemberPath="Nombre"/>
 

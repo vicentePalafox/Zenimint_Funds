@@ -26,6 +26,7 @@ namespace Zenimint_Funds.Views
             try
             {
                 using var context = new FinanzasContext();
+                cmbCategoriaGasto.ItemsSource = context.CategoriasGasto.ToList();
                 cmbTarjeta.ItemsSource = context.TarjetaCredito.ToList();
                 cmbDeudor.ItemsSource = context.Deudores.ToList();
             }
@@ -109,6 +110,12 @@ namespace Zenimint_Funds.Views
                         MontoTotal = (decimal)monto,
                         Fecha = DateTime.Now
                     };
+
+                    if (cmbCategoriaGasto.SelectedItem != null)
+                    {
+                        CategoriaGasto? categoria = cmbCategoriaGasto.SelectedItem as CategoriaGasto;
+                        gasto.CategoriaGastoId = categoria.Id;
+                    }
 
                     if (optTarjeta.IsChecked == true)
                     {
